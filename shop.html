@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shop_-_Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .shop-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .filters-section {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filters-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #c0c0c0;
+        }
+
+        .filter-group select,
+        .filter-group input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
+        .apply-filters-btn {
+            padding: 10px 20px;
+            background-color: #ff4500;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .apply-filters-btn:hover {
+            background-color: #ff5722;
+        }
+
+        .main-content {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .product-listings-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-listings-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            border-bottom: 2px solid #333;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .product-card p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #b0b0b0;
+        }
+
+        .view-product-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff4500;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .view-product-btn:hover {
+            background-color: #ff5722;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+
+        .modal-content button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #ff4500;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .modal-content button:hover {
+            background-color: #ff5722;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        /* Sticky navbar for mobile */
+        .navbar {
+            display: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #ff4500;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .navbar-nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar-nav a:hover {
+            color: #ff5722;
+        }
+
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            background-color: #ff4500;
+        }
+
+        .avatar-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .avatar-menu a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .avatar-menu a:hover {
+            background-color: #ff5722;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .shop-container {
+                padding: 10px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-listings-header h1 {
+                font-size: 2rem;
+            }
+
+            .navbar {
+                display: block;
+            }
+
+            .avatar {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+  
+    <!-- Avatar for logged-in user -->
+    <div class="avatar" onclick="toggleAvatarMenu()"></div>
+    <div class="avatar-menu" id="avatar-menu">
+         <a href="cart.html">Cart</a>
+        <a href="#">Order History</a>
+        <a href="#">Become a Member</a>
+      <a href="subscriptions.html">Manage Subscription</a>
+        
+        
+        
+     
+    </div>
+
+    <!-- Shop Container -->
+    <div class="shop-container">
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <h2>Filters</h2>
+            <input type="text" id="search-bar" class="search-bar" placeholder="Search...">
+            <div class="filter-group">
+                <label for="sort">Sort by Price:</label>
+                <select id="sort">
+                    <option value="low-to-high">Low to High</option>
+                    <option value="high-to-low">High to Low</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="country">Select Country:</label>
+                <select id="country" onchange="showStates()">
+                    <option value="">Select Country</option>
+                    <option value="us">United States</option>
+                    <option value="uk">United Kingdom</option>
+                  <option value="canada">Canada</option>
+                </select>
+            </div>
+          <div class="filter-group" id="state-group" style="display: none;">
+                <label for="state">Select State:</label>
+                <select id="state" onchange="filterByState()">
+                    <!-- State options will be dynamically populated -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Main Content (Product Listings) -->
+        <main class="main-content">
+            <header class="product-listings-header">
+                <h1>Available Escorts</h1>
+            </header>
+            <div class="product-grid" id="product-grid">
+                <!-- Product cards will be dynamically populated -->
+            </div>
+        </main>
+    </div>
+
+    
+    <!-- Sticky Navbar for Mobile -->
+    <div class="navbar">
+        <div class="navbar-nav">
+          <a href="shop.html"<i class="fa fa-cart-plus"></i> shop</a>
+          <a href="chat.html"<i class="fa fa-comments"></i> chat </a>
+          <a href="porn.html"<i class="fa fa-video-camera"></i> Porn </a>
+          <a href=""<i class="fa fa-envelope"></i> Notification </a>
+          
+        </div>
+    </nav>
+
+    
+    
+
+    <!-- Scripts -->
+    
+      
+     <script>
+    const states = {
+    us: [
+        "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", 
+        "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", 
+        "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", 
+        "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
+        "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", 
+        "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", 
+        "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", 
+        "Wisconsin", "Wyoming"
+    ],
+    uk: ["England", "Scotland", "Wales", "Northern Ireland", "Cornwall", "Devon", "Somerset", "Dorset",
+       "Kent", "Hampshire", "Sussex", "Surrey", "Berkshire", "Oxfordshire", "Buckinghamshire", "Hertfordshire", 
+       "Cambridgeshire", "Suffolk", "Norfolk", "Essex", "Wiltshire", "Gloucestershire", "Avon", "Bristol",
+       "Herefordshire", "Worcestershire", "Warwickshire", "Northamptonshire", "Leicestershire", "Rutland", 
+       "Staffordshire", "Shropshire", "West Midlands", "Derbyshire", "Nottinghamshire", "Lincolnshire",
+       "Cheshire", "Merseyside", "Greater Manchester", "Lancashire", "Cumbria", "Durham", "Northumberland",
+       "Tyne and Wear", "West Yorkshire", "South Yorkshire", "East Riding of Yorkshire", "Greater London",
+       "City of London", "Cleveland"
+    ],
+    canada:  ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Nova Scotia", 
+      "New Brunswick", "Newfoundland and Labrador", "Prince Edward Island", "Northwest Territories", "Yukon", 
+      "Nunavut"]
+};
+
+const products = [
+    { name: "Toveyah",   price: 1000,     state: "Georgia",       img: "./Toveyah.jpg",          page: "./Toveyah.html" },
+    { name: "Lasirena",   price: 300,     state: "Georgia",       img: "./Lasirena.jpg",         page: "./Lasirena.html" },
+    { name: "Pouty girl", price: 150,     state: "Georgia",       img: "./Pouty girl.jpg",       page: "./Poutygirl.html" },
+    { name: "Den Yanine", price: 500,     state: "Georgia",       img: "./Den Yanine1.jpg",      page: "./Den Yanine.html" },
+    { name: "Bonital",    price: 200,     state: "Georgia",       img: "./Bonital1.jpg",         page: "./Bonital.html" },
+    { name: "Andi",       price: 150,     state: "Georgia",       img: "./Andi1.jpg",            page: "./Andi.html" },
+{ name: "teanna trump",   price: 300,     state: "Georgia",       img: "./teanna trump.jpg",     page: "./teanna-trump.html" },
+  
+  //california//
+    { name: "Ruby",       price: 800,     state: "California",       img: "./Ruby1.jpg",            page: "./ruby.html" },
+    { name: "𝖍𝖆𝖎𝖑𝖊𝖞 𝖖𝖚𝖊𝖊𝖓",  price: 400,     state: "California",       img: "./𝖍𝖆𝖎𝖑𝖊𝖞 𝖖𝖚𝖊𝖊𝖓.jpg",        page: "./𝖍𝖆𝖎𝖑𝖊𝖞 𝖖𝖚𝖊𝖊𝖓.html" },
+    { name: "Trixie",     price: 600,     state: "California",       img: "./Trixie.jpg",           page: "./Trixie.html" },
+    { name: "Staryuuki",  price: 350,     state: "California",       img: "./Staryuuki1.jpg",       page: "./Staryuuki.html" },
+    { name: "東雲うみ",    price: 200,     state: "California",       img:"./東雲うみ1.jpg",          page: "./東雲うみ.html" },
+    { name: "Onlybaby",   price: 500,     state: "California",       img: "./Onlbaby2.jpg",         page: "./Onlybaby.html" },
+    { name: "Wavy ting ", price: 700,     state: "California",       img: "./Wavy ting.jpg",        page: "./Wavy ting.html" },
+    { name: "Riley",      price: 1200,    state: "California",       img: "./Riley.jpg",            page: "./Riley.html" },
+  
+  
+  //Florida//
+ { name: "Tesxy",          price: 200,      state: "Florida",       img: "./Tesxy.jpg",               page: "./Tesxy.html" },
+ { name: "Mia Malkova",    price: 2000,     state: "Florida",       img: "./Mia Malkova1.jpg",        page: "./Mia Malkova.html" },
+ { name: "Ashaley",        price: 3000,     state: "Florida",       img: "./Ashaley1.jpg",            page: "./Ashaley.html" },
+ { name: "Bonnie",         price: 600,      state: "Florida",       img: "./Bonnie1.jpg",             page: "./Bonnie.html" },
+ { name: "Alisa",          price: 300,      state: "Florida",       img: "./Alisa1.jpg",              page: "./Alisa.html" },
+ { name: "Autumn Renae",   price: 500,      state: "Florida",       img: "./Autumn Renae1.jpg",       page: "./Autumn Renae.html" },
+ { name: "Moná Letman",    price: 2000,     state: "Florida",       img: "./Moná Letman.jpg",         page: "./Moná Letman.html" },
+ { name: "Amelia",         price: 400,      state: "Florida",       img: "./Amelia.jpg",              page: "./Amelia.html" },
+  
+  
+  //Texas//
+ { name: "𝐊𝐘𝐑𝐀_𝐋𝐀𝐂𝐄𝐃", price: 2500,   state: "Texas",        img: "./𝐊𝐘𝐑𝐀_𝐋𝐀𝐂𝐄𝐃1.jpg",         page: "./𝐊𝐘𝐑𝐀_𝐋𝐀𝐂𝐄𝐃.html" },
+ { name: "chloe",       price: 500,     state: "Texas",       img: "chloe1.jpg",                page: "./chloe.html" },
+ { name: "Debbie",      price: 200,     state: "Texas",       img: "debbie.jpg",                page: "./Debbie.html" },
+ { name: "isla",        price: 1200,    state: "Texas",       img: "isla.jpg",                 page: "./isla.html" },
+ { name: "Bambi Doe ",  price: 800,     state: "Texas",       img: "Bambi Doe1.jpg",           page: "./Bambi Doe.html" },
+ { name: "Becky",       price: 600,     state: "Texas",       img: "Becky.jpg",                 page: "./Becky.html" },
+  
+  //Arkansas//
+
+//Colorado//
+//Connecticut//
+  //Delaware//
+
+//Hawaii//
+//Idaho//
+//Illinois//
+//Indiana//
+ //Iowa//
+  //Kansas//
+//Kentucky//
+//Louisiana//
+//Maine//
+//Maryland//
+//Massachusetts// 
+//Michigan//
+ //Minnesota//
+//Mississippi//
+//Missouri//
+//Montana//
+//Nebraska//
+ //Nevada//
+ //New Hampshire//
+    //New Jersey//
+//New Mexico//
+//New York//
+//North Carolina//
+//North Dakota//
+//Ohio//
+  //Oklahoma//
+//Oregon//
+ //Pennsylvania//
+//Rhode Island//
+//South Carolina//
+ //South Dakota//
+ //Tennessee//
+//Utah// 
+//Vermont//
+//Virginia//
+ //Washington//
+  //West // 
+//Virginia//
+//Wisconsin//
+//Wyoming//
+  
+        
+];
+
+function showStates() {
+    const country = document.getElementById('country').value;
+    const stateGroup = document.getElementById('state-group');
+    const stateSelect = document.getElementById('state');
+
+    if (country) {
+        stateGroup.style.display = 'block';
+        stateSelect.innerHTML = '<option value="">Select State</option>';
+        states[country].forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+        });
+    } else {
+        stateGroup.style.display = 'none';
+        stateSelect.innerHTML = '';
+    }
+}
+
+function filterByState() {
+    const state = document.getElementById('state').value;
+    const productGrid = document.getElementById('product-grid');
+    productGrid.innerHTML = '';
+    products.filter(product => product.state === state).forEach(product => {
+        const productCard = createProductCard(product);
+        productGrid.appendChild(productCard);
+    });
+}
+
+function createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+
+    const img = document.createElement('img');
+    img.src = product.img;
+    img.alt = product.name;
+
+    const title = document.createElement('h3');
+    title.textContent = product.name;
+
+    const price = document.createElement('p');
+    price.textContent = `$${product.price.toFixed(2)}`;
+
+    const link = document.createElement('a');
+    link.href = product.page;
+    link.className = 'view-product-btn';
+    link.textContent = 'View escort';
+
+    card.appendChild(img);
+    card.appendChild(title);
+    card.appendChild(price);
+    card.appendChild(link);
+
+    return card;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const productGrid = document.getElementById('product-grid');
+    products.forEach(product => {
+        const productCard = createProductCard(product);
+        productGrid.appendChild(productCard);
+    });
+
+    document.getElementById('search-bar').addEventListener('input', filterProducts);
+});
+
+function filterProducts() {
+    const searchQuery = document.getElementById('search-bar').value.toLowerCase();
+    const productGrid = document.getElementById('product-grid');
+    productGrid.innerHTML = '';
+
+    products.filter(product => product.name.toLowerCase().includes(searchQuery)).forEach(product => {
+        const productCard = createProductCard(product);
+        productGrid.appendChild(productCard);
+    });
+}
+
+function addToCart(productId) {
+    alert(`Product ${productId} added to cart!`);
+}
+
+function toggleAvatarMenu() {
+    const avatarMenu = document.getElementById('avatar-menu');
+    avatarMenu.style.display = avatarMenu.style.display === 'block' ? 'none' : 'block';
+}
+
+function showAccountOptions() {
+    document.getElementById('account-modal').style.display = 'flex';
+}
+
+function closeAccountModal() {
+    document.getElementById('account-modal').style.display = 'none';
+}
+
+function editProfile() {
+    alert('You can\'t update your profile right now. Please try again later.');
+}
+
+function logout() {
+    alert('Logout clicked');
+}
+
+function becomeMember() {
+    alert('Become Member clicked');
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('account-modal');
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+</script>
+</body>
+</html>
+    

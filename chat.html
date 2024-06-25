@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Popup Message</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: #fff; /* Light text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .popup-container {
+    background-color: #333; /* Darker background for popup */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .popup-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-transform: uppercase; /* Uppercase title */
+    color: #ff4500; /* Title color */
+  }
+
+  .popup-container p {
+    font-size: 16px;
+    margin-bottom: 25px;
+    line-height: 1.5; /* Increased line height for better readability */
+  }
+
+  .cta-button {
+    background-color: #ff4500; /* Button color */
+    color: #fff; /* Button text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .cta-button:hover {
+    background-color: #cc3700; /* Button hover color */
+  }
+
+  /* Add a subtle border-bottom to the title for a decorative touch */
+  .popup-container h2 {
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="popup-container">
+    <h2>Unlock Chat Feature</h2>
+    <p>To start chatting, you need to make a purchase of the escort you want to chat with first. Our Escort are worth exploring!</p>
+    <a href="shop.html" class="cta-button">Explore Escort</a>
+</div>
+
+</body>
+</html>

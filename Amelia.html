@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Product Detail Page</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container styles */
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Product images container styles */
+        .product-images-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Main image styles */
+        .main-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px; /* Optional: Add border-radius for main image */
+        }
+
+        /* Thumbnail images styles */
+        .thumbnail-images {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail-images img {
+            width: 80px; /* Adjust the width of thumbnail images */
+            height: auto;
+            cursor: pointer;
+        }
+
+        /* Highlight selected thumbnail image */
+        .thumbnail-images img.active {
+            border: 2px solid #ff4500; /* Change border color as needed */
+        }
+
+        /* Product information styles */
+        .product-information {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ff4500;
+        }
+
+        .product-description {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #b0b0b0;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .size-options,
+        .color-options,
+        .quantity-selector {
+            flex: 1;
+        }
+
+        .size-options label,
+        .color-options label,
+        .quantity-selector label {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .size-options select,
+        .color-options select,
+        .quantity-selector input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
+        .add-to-cart-btn,
+        .chat-with-seller-btn {
+            padding: 10px 10px;
+            background-color: #ff4500;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            margin-right: 10px; /* Add margin to separate buttons */
+        }
+
+        .add-to-cart-btn:hover,
+        .chat-with-seller-btn:hover {
+            background-color: #ff5722;
+        }
+
+        /* Customer reviews styles */
+        .customer-reviews {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .customer-reviews h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .reviews {
+            margin-bottom: 20px;
+        }
+
+        .review {
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            font-size: 1.5rem;
+            color: #ff4500;
+        }
+
+        .review-text {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #b0b0b0;
+        }
+
+        .review-author {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .add-review-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .add-review-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .add-review-form select,
+        .add-review-form textarea,
+        .add-review-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
+        .add-review-form textarea {
+            resize: vertical;
+        }
+
+        .add-review-form button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #ff4500;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .add-review-form button[type="submit"]:hover {
+            background-color: #ff5722;
+        }
+  
+  /* Location icon styles */
+      .location-icon {
+       cursor: pointer;
+       vertical-align: bottom; 
+       fill: #ff4500; 
+       animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+    </style>
+</head>
+<body>
+  
+  
+    
+      
+    <div class="product-detail-container">
+        <!-- Product Images Container -->
+        <div class="product-images-container">
+            <div class="main-image">
+                <img src="Amelia.jpg" alt="Main Product Image">
+            </div>
+            <div class="thumbnail-images">
+                <img src="Amelia.jpg" alt="Additional Product Image 1">
+                <img src="Amelia.jpg" alt="Additional Product Image 2">
+            </div>
+        </div>
+
+        <!-- Product Information Section -->
+        <section class="product-information">
+            <h1 class="product-title">Amelia</h1>
+            <p class="product-price">$400.00</p>
+            <p class="product-description">  HOT FUCK🔞🍆, I’M AVAILABLE STRIPPING,BODY & MASSAGE, SEX BOTH INCALL🥰 AND OUTCALL.I ALSO SELL COKE IN</p>
+            <div class="options">
+                <div class="size-options">
+                    <label for="size">with.Condom:</label>
+                    <select id="size">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Maybe">Maybe</option>
+                    </select>
+                </div>
+                <div class="color-options">
+                    <label for="color">Fav.Pos:</label>
+                    <select id="color">
+                        <option value="Doggy">Doggy</option>
+                        <option value="Cowgirl">Cowgirl</option>
+                        <option value="All Position">All Position</option>
+                    </select>
+                </div>
+                <div class="quantity-selector">
+                    <label for="quantity">No.Of.Men:</label>
+                    <input type="number" id="quantity" min="1" value="1">
+                </div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addToCart()">Meet Now</button>
+          
+            <button class="chat-with-seller-btn" onclick="initiateChat()">Chat with Escort</button>
+          
+    <span class="location-icon" onclick="showLocation()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+    </span>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section class="customer-reviews">
+            <h2>Customer Reviews</h2>
+            <div class="reviews">
+                <div class="review">
+                    <div class="rating">★★★★★</div>
+                    <p class="review-text">London Qwin.</p>
+                    <p class="review-author"><b>James</b></p>
+                </div>
+            </div>
+            <form class="add-review-form" onsubmit="addReview(event)">
+                <h3>Add Your Review</h3>
+                <label for="rating">Your Rating:</label>
+                <select id="rating">
+                    <option value="1">★</option>
+                    <option value="2">★★</option>
+                    <option value="3">★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="5">★★★★★</option>
+                </select>
+                <textarea id="review" placeholder="Write your review..." required></textarea>
+                <input type="text" id="author" placeholder="Your Name" required>
+                <button type="submit">Submit Review</button>
+            </form>
+              </section>
+         </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        function addToCart() {
+            const product = {
+                title: document.querySelector('.product-title').innerText,
+                price: document.querySelector('.product-price').innerText,
+                size: document.querySelector('#size').value,
+                color: document.querySelector('#color').value,
+                quantity: document.querySelector('#quantity').value,
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            window.location.href = 'cart.html';
+        }
+
+        function addReview(event) {
+            event.preventDefault();
+            const rating = document.querySelector('#rating').value;
+            const review = document.querySelector('#review').value;
+            const author = document.querySelector('#author').value;
+            
+            const reviewHTML = `
+                <div class="review">
+                    <div class="rating">${'★'.repeat(rating)}</div>
+                    <p class="review-text">${review}</p>
+                    <p class="review-author">- ${author}</p>
+                </div>
+            `;
+            document.querySelector('.reviews').innerHTML += reviewHTML;
+            document.querySelector('.add-review-form').reset();
+        }
+
+        function hasPurchasedProduct() {
+            // Simulate checking if the user has purchased the product
+            // Replace this with actual logic to check purchase status
+            return JSON.parse(localStorage.getItem('hasPurchasedProduct')) || false;
+        }
+
+        function initiateChat() {
+            if (hasPurchasedProduct()) {
+                window.location.href = 'buyer-chat.html'; // Redirect to the chat page
+            } else {
+                alert('Please purchase the product before you can chat with the seller.');
+            }
+        }
+
+
+    function showCustomPopup(message) {
+        // Create the popup container
+        const popupContainer = document.createElement('div');
+        popupContainer.style.position = 'fixed';
+        popupContainer.style.top = '50%';
+        popupContainer.style.left = '50%';
+        popupContainer.style.transform = 'translate(-50%, -50%)';
+        popupContainer.style.backgroundColor = '#1a1a1a';
+        popupContainer.style.color = '#ffffff';
+        popupContainer.style.padding = '20px';
+        popupContainer.style.borderRadius = '10px';
+        popupContainer.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+        popupContainer.style.zIndex = '1000';
+        popupContainer.style.textAlign = 'center';
+
+        // Create the message text
+        const messageText = document.createElement('p');
+        messageText.innerText = message;
+
+        // Create the close button
+        const closeButton = document.createElement('button');
+        closeButton.innerText = 'OK';
+        closeButton.style.marginTop = '10px';
+        closeButton.style.padding = '10px 20px';
+        closeButton.style.backgroundColor = '#ff4500';
+        closeButton.style.color = '#ffffff';
+        closeButton.style.border = 'none';
+        closeButton.style.borderRadius = '5px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.addEventListener('click', function () {
+            document.body.removeChild(popupContainer);
+        });
+
+        // Append the message and close button to the popup container
+        popupContainer.appendChild(messageText);
+        popupContainer.appendChild(closeButton);
+
+        // Append the popup container to the body
+        document.body.appendChild(popupContainer);
+    }
+
+    function initiateChat() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const productTitle = document.querySelector('.product-title').innerText;
+        const purchasedProduct = cart.find(product => product.title === productTitle);
+
+        if (purchasedProduct) {
+            window.location.href = '###';
+        } else {
+            showCustomPopup('Please pay for the escort before you can chat with her.');
+        }
+    }
+// Image swapper function
+document.querySelectorAll('.thumbnail-images img').forEach(thumbnail => {
+    thumbnail.addEventListener('click', function() {
+        document.querySelector('.main-image img').src = this.src;
+        document.querySelectorAll('.thumbnail-images img').forEach(img => img.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+  function showCustomPopup(message) {
+            const popupContainer = document.createElement('div');
+            popupContainer.style.position = 'fixed';
+            popupContainer.style.top = '50%';
+            popupContainer.style.left = '50%';
+            popupContainer.style.transform = 'translate(-50%, -50%)';
+            popupContainer.style.backgroundColor = '#1a1a1a';
+            popupContainer.style.color = '#ffffff';
+            popupContainer.style.padding = '20px';
+            popupContainer.style.borderRadius = '10px';
+            popupContainer.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+            popupContainer.style.zIndex = '1000';
+            popupContainer.style.textAlign = 'center';
+
+            const messageText = document.createElement('p');
+            messageText.innerText = message;
+
+            const closeButton = document.createElement('button');
+            closeButton.innerText = 'OK';
+            closeButton.style.marginTop = '10px';
+            closeButton.style.padding = '10px 20px';
+            closeButton.style.backgroundColor = '#ff4500';
+            closeButton.style.color = '#ffffff';
+            closeButton.style.border = 'none';
+            closeButton.style.borderRadius = '5px';
+            closeButton.style.cursor = 'pointer';
+            closeButton.addEventListener('click', function () {
+                document.body.removeChild(popupContainer);
+            });
+
+            popupContainer.appendChild(messageText);
+            popupContainer.appendChild(closeButton);
+            document.body.appendChild(popupContainer);
+        }
+
+function showLocation() {
+            showCustomPopup('Escort Location: Purchase the escort to see their location.');
+        }
+
+    </script>
+</body>
+</html>
